@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>apestradamus</title>
+  <meta name="description" content="Apestradamus monologue with history." />
+  <style>
+.bg-eyes .front {
+  z-index: 999;   /* higher than .win95 */
+  pointer-events: none; /* so they don’t block clicks */
+}
+/* FOREGROUND EYES (on top of the window) */
+.fg-eyes{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;   /* don’t block clicks */
+  z-index: 10;            /* higher than .win95 (which is 1) */
+  overflow: hidden;
+}
+.fg-eyes .e{
+  position: absolute;
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.5));
+  opacity: .9;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+
+/* sizes for mixed emoji + gifs */
+.fg-eyes span.e { font-size: 84px; }
+.fg-eyes img.e  { width: 96px; height: auto; }
+
+/* reuse the same positions/speeds as background */
+.fg-eyes .e1{ top:6vh;  left:8vw;  animation-duration:14s; }
+.fg-eyes .e2{ top:22vh; left:70vw; animation-duration:11s; }
+.fg-eyes .e3{ top:55vh; left:18vw; animation-duration:16s; }
+.fg-eyes .e4{ top:72vh; left:62vw; animation-duration:13s; }
+.fg-eyes .e5{ top:69vh; left:42vw; animation-duration:15s; }
+.fg-eyes .e6{ top:35vh; left:42vw; animation-duration:13s; }
+.fg-eyes .e7{ top:44vh; left:52vw; animation-duration:13s; }
+.fg-eyes .e8{ top:35vh; left:69vw; animation-duration:17s; }
+    :root{
+      --bsod:#0000aa;
+      --screen:#0a0a0a;
+      --text:#f2f2f2;
+      --accent:#12b0a8;
+      --shadow:rgba(0,0,0,.5);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    html,body{ height:100%; }
+    body{
+      margin:0; background:var(--bsod); color:var(--text); font-family:var(--mono);
+      display:grid; place-items:center; overflow:auto;
+    }
+    body::before{
+      content:"Apestradamus";
+      position:fixed; inset:auto 5% 8% 5%;
+      color:rgba(255,255,255,.18); font-size:clamp(10px,2.4vw,22px);
+      pointer-events:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+    .win95{
+      width:min(980px, 92vw);
+      box-shadow:0 12px 30px var(--shadow);
+      border:2px solid #111; border-radius:4px; overflow:hidden;
+      position:relative; z-index:1;
+    }
+    .titlebar{
+      background:var(--accent); color:#eaffff; padding:10px 14px;
+      display:flex; align-items:center; justify-content:space-between;
+      font-weight:700; text-transform:lowercase; letter-spacing:1px;
+    }
+    .btns{ display:flex; gap:6px; }
+    .btn{ width:14px; height:14px; background:#e6ffff; border:2px solid #003c3a; box-shadow:inset -2px -2px 0 #a5ffff; }
+
+    .chrome{ background:#1a1a1a; padding:14px; border-top:2px solid #003c3a; }
+    .split{ display:grid; grid-template-columns:1fr; gap:16px; }
+    @media (min-width:900px){ .split{ grid-template-columns:1fr 380px; } }
+
+    .screen{
+      background:var(--screen); border:3px solid #3a3a3a; padding:16px; min-height:260px;
+    }
+    .ts{ color:#9ad0ff; font-weight:700; margin-bottom:6px; }
+    .mono{ white-space:pre-wrap; line-height:1.6; }
+
+    .panel{ background:var(--screen); border:3px solid #3a3a3a; padding:12px; height:65vh; overflow:auto; }
+    .panel h3{ margin:0 0 8px; color:#9ad0ff; text-transform:lowercase; }
+    .item{ padding:10px; border:1px dashed #3b3b3b; margin-bottom:8px; cursor:pointer; }
+    .item:hover{ background:#101010; }
+    .item .time{ color:#c3ffc3; font-size:.9em; margin-bottom:4px; }
+
+    .footer{ color:#c3c3c3; opacity:.8; font-size:.88rem; padding:10px 0 0; text-align:center; }
+    a{ color:#9ad0ff; }
+
+    .press{ text-align:right; opacity:.7; margin-top:8px; font-size:.92rem; }
+
+    /* floating background eyes */
+    .bg-eyes{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .bg-eyes .e{ position:absolute; font-size:64px; filter:drop-shadow(0 2px 0 rgba(0,0,0,.5)); opacity:.9; animation: drift 12s ease-in-out infinite alternate; }
+    .bg-eyes .e1{ top:6vh; left:8vw; font-size:72px; animation-duration:14s; }
+    .bg-eyes .e2{ top:22vh; left:70vw; font-size:84px; animation-duration:11s; }
+    .bg-eyes .e3{ top:55vh; left:18vw; font-size:90px; animation-duration:16s; }
+    .bg-eyes .e4{ top:72vh; left:62vw; font-size:76px; animation-duration:13s; }
+    .bg-eyes .e5{ top:69vh; left:42vw; font-size:96px; animation-duration:15s; }
+ .bg-eyes .e6{ top:35vh; left:42vw; font-size:96px; animation-duration:13s; }
+ .bg-eyes .e7{ top:44vh; left:52vw; font-size:96px; animation-duration:13s; }
+ .bg-eyes .e8{ top:15vh; left:19vw; font-size:96px; animation-duration:17s; }
+    @keyframes drift{ 0%{ transform: translate(0,0) rotate(0deg);} 50%{ transform: translate(10vw, -4vh) rotate(3deg);} 100%{ transform: translate(-6vw, 5vh) rotate(-2deg);} }
+
+    button {
+      margin:8px 0 0;
+      padding:4px 8px;
+      background:#333; border:1px solid #555; color:#fff;
+      font-family:var(--mono); cursor:pointer;
+    }
+    .warn{ color:#ffdb6e; }
+  </style>
+</head>
+<body>
+  <!-- floating background eyes -->
+  <div class="bg-eyes" aria-hidden="true">
+
+  <span class="e e1">👀</span>
+  <img  class="e e2" src="https://quantmom.github.io/Apestradamus/gifs/eye3.gif?v=2" alt="eye" />
+  <img  class="e e4" src="https://quantmom.github.io/Apestradamus/gifs/eye2.gif?v=2" alt="eye" />
+  <img  class="e e5" src="https://quantmom.github.io/Apestradamus/gifs/eye1.gif?v=2" alt="eye" />
+  <span class="e e3">👁️</span>
+</div>
+
+<!-- in front of the window -->
+<div class="fg-eyes" aria-hidden="true">
+  <img  class="e e7" src="https://quantmom.github.io/Apestradamus/gifs/eye2.gif?v=2" alt="eye" />
+  <img  class="e e6" src="https://quantmom.github.io/Apestradamus/gifs/eye3.gif?v=1" alt="eye" />
+  <img  class="e e8" src="https://quantmom.github.io/Apestradamus/gifs/eye4.gif?v=2" alt="eye" />
+  <span class="e e9">👀</span>
+</div>
+  </div>
+
+  <main class="win95" role="main" aria-label="apestradamus window">
+    <div class="titlebar">
+      <div>apestradamus</div>
+      <div class="btns"><div class="btn"></div><div class="btn"></div><div class="btn"></div></div>
+    </div>
+
+    <div class="chrome">
+      <div class="split">
+        <!-- left: current monologue -->
+        <section>
+          <div class="screen" id="current">
+            <div class="ts" id="ts">loading…</div>
+            <div class="mono" id="text">Loading …</div>
+          </div>
+          <button onclick="refreshAll()">⟳ Refresh</button>
+          <div class="press">LOOKING AT NEW COINS 24/7</div>
+        </section>
+
+        <!-- right: history list -->
+        <aside class="panel">
+          <h3>history</h3>
+          <div id="history"><div class="warn">Loading…</div></div>
+        </aside>
+      </div>
+
+      <div class="footer"> cc</div>
+    </div>
+  </main>
+
+  <script>
+    const WORKER = "https://pumpbot-worker.apestradamus.workers.dev";
+    const $ts = document.getElementById('ts');
+    const $text = document.getElementById('text');
+    const $history = document.getElementById('history');
+
+    function parseTimeFromRant(r) {
+      // Expect "YYYY-MM-DD HH:MM:SS UTC\n<text>"
+      const firstLine = (r.split('\n')[0] || '').trim();
+      return firstLine.endsWith('UTC') ? firstLine : '';
+    }
+
+    async function loadCurrent() {
+      try {
+        const res = await fetch(`${WORKER}/rant`, { mode: 'cors' });
+        if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+        const txt = await res.text();
+        const t = parseTimeFromRant(txt);
+        $ts.textContent = t || '';
+        $text.textContent = txt;
+      } catch (e) {
+        $ts.textContent = '';
+        $text.innerHTML = `<span class="warn">⚠ Error fetching current rant.</span>`;
+        console.error(e);
+      }
+    }
+
+    async function loadHistory() {
+      try {
+        const res = await fetch(`${WORKER}/history`, { mode: 'cors' });
+        if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+        const arr = await res.json(); // array of stamped rants
+        $history.innerHTML = '';
+        arr.forEach((item) => {
+          const time = parseTimeFromRant(item) || '';
+          const el = document.createElement('div');
+          el.className = 'item';
+          el.innerHTML = `<div class="time">${time}</div><div class="mono">${item}</div>`;
+          el.addEventListener('click', () => {
+            $ts.textContent = time;
+            $text.textContent = item;
+          });
+          $history.appendChild(el);
+        });
+      } catch (e) {
+        $history.innerHTML = `<div class="warn">⚠ Error fetching history.</div>`;
+        console.error(e);
+      }
+    }
+
+    function refreshAll() {
+      loadCurrent();
+      loadHistory();
+    }
+
+    // initial + every 3 minutes
+    refreshAll();
+    setInterval(refreshAll, 180000);
+
+    // keyboard rotates through history (if any)
+    addEventListener('keydown', () => {
+      const items = Array.from($history.querySelectorAll('.item .mono'));
+      if (!items.length) return;
+      // pick next one cyclically
+      const idx = items.findIndex(n => n.textContent === $text.textContent);
+      const next = items[(idx + 1) % items.length];
+      const wrapper = next.closest('.item');
+      const time = wrapper.querySelector('.time')?.textContent || '';
+      $ts.textContent = time;
+      $text.textContent = next.textContent;
+      wrapper.scrollIntoView({ block: 'nearest' });
+    });
+  </script>
+</body>
+</html>
